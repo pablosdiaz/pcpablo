@@ -38,6 +38,41 @@ function getWeather(lat, lon) {
     }
 }
 
+// Función para obtener el nombre de la localidad
+function getLocality(lat, lon) {
+    const locationElement = document.getElementById('location');
+    if (locationElement) {
+        // IMPORTANTE: Reemplaza 'YOUR_API_KEY' con tu propia clave de API de Geoapify.
+        const apiKey = 'YOUR_API_KEY';
+        const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=${apiKey}`;
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('No se pudo obtener la información de la localidad.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.features && data.features.length > 0) {
+                    const properties = data.features[0].properties;
+                    const city = properties.city || properties.town || properties.village || properties.municipality;
+                    if (city) {
+                        locationElement.textContent = `Localidad: ${city}`;
+                    } else {
+                        locationElement.textContent = 'No se pudo determinar la localidad.';
+                    }
+                } else {
+                    locationElement.textContent = 'No se pudo obtener la localidad.';
+                }
+            })
+            .catch(error => {
+                console.error('Error al obtener la localidad:', error);
+                locationElement.textContent = 'No se pudo obtener la localidad.';
+            });
+    }
+}
+
 // Función principal que se ejecuta al cargar la página
 function main() {
     updateClock();
@@ -49,6 +84,7 @@ function main() {
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
                 getWeather(lat, lon);
+                getLocality(lat, lon);
             },
             (error) => {
                 console.error('Error al obtener la geolocalización:', error);

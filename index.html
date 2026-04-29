@@ -3,22 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola Mundo con Reloj y Temperatura</title>
+    <title>KidsStore - Tienda de Productos para Niños</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Hola mundo</h1>
-    <div id="clock"></div>
-    <div id="weather"></div>
-    <div id="location"></div>
+    <!-- Header con Logo -->
+    <header id="main-header">
+        <div class="header-container">
+            <img id="store-logo" src="" alt="KidsStore Logo" class="logo">
+            <h1 id="store-name">KidsStore</h1>
+            <nav>
+                <a href="#home">Inicio</a>
+                <a href="#products">Productos</a>
+                <a href="#categories">Categorías</a>
+                <a href="#subscribe">Suscribirse</a>
+                <a href="#admin-login" id="admin-link">Admin</a>
+            </nav>
+        </div>
+    </header>
 
-    <form action="https://formsubmit.co/diazpablosantiago@gmail.com" method="POST">
-        <h2>Contacto</h2>
-        <input type="text" name="name" placeholder="Tu nombre" required>
-        <input type="email" name="email" placeholder="Tu correo electrónico" required>
-        <textarea name="message" placeholder="Tu mensaje" required></textarea>
-        <button type="submit">Enviar</button>
-    </form>
+    <!-- Sección Hero -->
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <h2 id="hero-title">¡Bienvenidos a KidsStore!</h2>
+            <p id="hero-subtitle">Los mejores productos para tus pequeños</p>
+            <a href="#products" class="btn-primary">Ver Productos</a>
+        </div>
+    </section>
+
+    <!-- Sección de Categorías -->
+    <section id="categories" class="section">
+        <h2>Categorías</h2>
+        <div id="categories-container" class="categories-grid">
+            <!-- Las categorías se cargarán dinámicamente -->
+        </div>
+    </section>
+
+    <!-- Sección de Productos -->
+    <section id="products" class="section">
+        <h2>Nuestros Productos</h2>
+        <div id="filters">
+            <label for="category-filter">Filtrar por categoría:</label>
+            <select id="category-filter">
+                <option value="all">Todas</option>
+            </select>
+        </div>
+        <div id="products-container" class="products-grid">
+            <!-- Los productos se cargarán dinámicamente -->
+        </div>
+    </section>
+
+    <!-- Sección de Suscripción -->
+    <section id="subscribe" class="section subscribe-section">
+        <h2>Suscríbete a Nuestro Newsletter</h2>
+        <p>Recibe ofertas especiales y novedades</p>
+        <form id="subscribe-form" class="subscribe-form">
+            <input type="email" id="subscriber-email" placeholder="Tu correo electrónico" required>
+            <button type="submit" class="btn-primary">Suscribirme</button>
+        </form>
+        <div id="subscribe-message"></div>
+    </section>
+
+    <!-- Footer Personalizable -->
+    <footer id="main-footer">
+        <div class="footer-content">
+            <p id="footer-text">&copy; 2024 KidsStore. Todos los derechos reservados.</p>
+            <div id="social-links">
+                <a href="#" class="social-link">Facebook</a>
+                <a href="#" class="social-link">Instagram</a>
+                <a href="#" class="social-link">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Login Admin -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Administración</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn-primary">Ingresar</button>
+            </form>
+            <div id="login-message"></div>
+        </div>
+    </div>
+
+    <!-- Panel de Administración -->
+    <div id="admin-panel" class="admin-panel">
+        <div class="admin-header">
+            <h2>Panel de Administración</h2>
+            <button id="close-admin" class="btn-secondary">Cerrar Sesión</button>
+        </div>
+        
+        <!-- Pestañas del Admin -->
+        <div class="admin-tabs">
+            <button class="tab-btn active" data-tab="design">Diseñar Front</button>
+            <button class="tab-btn" data-tab="logo">Actualizar Logo</button>
+            <button class="tab-btn" data-tab="categories">Categorías</button>
+            <button class="tab-btn" data-tab="products">Productos</button>
+            <button class="tab-btn" data-tab="subscribers">Suscriptores</button>
+        </div>
+
+        <!-- Contenido de las Pestañas -->
+        <div class="tab-content">
+            <!-- Diseñar Front -->
+            <div id="design-tab" class="tab-pane active">
+                <h3>Personalizar Diseño</h3>
+                <form id="design-form">
+                    <div class="form-group">
+                        <label>Título Principal:</label>
+                        <input type="text" id="store-name-input" placeholder="Nombre de la tienda">
+                    </div>
+                    <div class="form-group">
+                        <label>Título del Hero:</label>
+                        <input type="text" id="hero-title-input" placeholder="Título principal">
+                    </div>
+                    <div class="form-group">
+                        <label>Subtítulo del Hero:</label>
+                        <input type="text" id="hero-subtitle-input" placeholder="Subtítulo">
+                    </div>
+                    <div class="form-group">
+                        <label>Color Primario:</label>
+                        <input type="color" id="primary-color-input" value="#FF6B6B">
+                    </div>
+                    <div class="form-group">
+                        <label>Color Secundario:</label>
+                        <input type="color" id="secondary-color-input" value="#4ECDC4">
+                    </div>
+                    <div class="form-group">
+                        <label>Texto del Footer:</label>
+                        <textarea id="footer-text-input" placeholder="Texto del footer"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Guardar Diseño</button>
+                </form>
+            </div>
+
+            <!-- Actualizar Logo -->
+            <div id="logo-tab" class="tab-pane">
+                <h3>Actualizar Logo</h3>
+                <form id="logo-form">
+                    <div class="form-group">
+                        <label>URL del Logo:</label>
+                        <input type="url" id="logo-url-input" placeholder="https://ejemplo.com/logo.png">
+                    </div>
+                    <div class="form-group">
+                        <label>O subir archivo:</label>
+                        <input type="file" id="logo-file-input" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn-primary">Actualizar Logo</button>
+                </form>
+                <div id="current-logo-preview">
+                    <h4>Vista Previa Actual:</h4>
+                    <img id="logo-preview" src="" alt="Logo actual">
+                </div>
+            </div>
+
+            <!-- Gestionar Categorías -->
+            <div id="categories-tab" class="tab-pane">
+                <h3>Gestionar Categorías</h3>
+                <form id="category-form">
+                    <div class="form-group">
+                        <label>Nombre de Categoría:</label>
+                        <input type="text" id="category-name-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción:</label>
+                        <textarea id="category-desc-input"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Color:</label>
+                        <input type="color" id="category-color-input" value="#FF6B6B">
+                    </div>
+                    <button type="submit" class="btn-primary">Crear Categoría</button>
+                </form>
+                <div id="categories-list" class="admin-list">
+                    <!-- Lista de categorías existentes -->
+                </div>
+            </div>
+
+            <!-- Gestionar Productos -->
+            <div id="products-tab" class="tab-pane">
+                <h3>Gestionar Productos</h3>
+                <form id="product-form">
+                    <div class="form-group">
+                        <label>Nombre del Producto:</label>
+                        <input type="text" id="product-name-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción:</label>
+                        <textarea id="product-desc-input" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio:</label>
+                        <input type="number" id="product-price-input" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría:</label>
+                        <select id="product-category-input" required>
+                            <!-- Se llena dinámicamente -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>URL de Imagen:</label>
+                        <input type="url" id="product-image-input" placeholder="https://ejemplo.com/imagen.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label>O subir imagen:</label>
+                        <input type="file" id="product-image-file" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn-primary">Crear Producto</button>
+                </form>
+                <div id="products-list" class="admin-list">
+                    <!-- Lista de productos existentes -->
+                </div>
+            </div>
+
+            <!-- Ver Suscriptores -->
+            <div id="subscribers-tab" class="tab-pane">
+                <h3>Lista de Suscriptores</h3>
+                <div id="subscribers-list" class="admin-list">
+                    <!-- Lista de suscriptores -->
+                </div>
+                <button id="export-subscribers" class="btn-secondary">Exportar CSV</button>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

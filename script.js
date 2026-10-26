@@ -1,3 +1,7 @@
+let newsData = [];
+let currentNewsIndex = 0;
+let newsRotationInterval;
+
 // Función para actualizar el reloj cada segundo
 function updateClock() {
     const clockElement = document.getElementById('clock');
@@ -26,14 +30,14 @@ function getWeather(lat, lon) {
             .then(data => {
                 if (data && data.current && data.current.temperature_2m) {
                     const temp = data.current.temperature_2m;
-                    weatherElement.textContent = `Temperatura: ${temp}°C`;
+                    weatherElement.textContent = `Temp: ${temp}°C`;
                 } else {
-                    weatherElement.textContent = 'No se pudo obtener la temperatura.';
+                    weatherElement.textContent = 'Temp: N/A';
                 }
             })
             .catch(error => {
                 console.error('Error al obtener el clima:', error);
-                weatherElement.textContent = 'No se pudo obtener la temperatura.';
+                weatherElement.textContent = 'Temp: N/A';
             });
     }
 }
@@ -42,41 +46,93 @@ function getWeather(lat, lon) {
 function getLocality(lat, lon) {
     const locationElement = document.getElementById('location');
     if (locationElement) {
-        // IMPORTANTE: Reemplaza 'YOUR_API_KEY' con tu propia clave de API de Geoapify.
-        const apiKey = 'YOUR_API_KEY';
-        const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=${apiKey}`;
+        // Mock locality for now or use reverse geocoding if API key is provided
+        // Since we don't have a valid Geoapify key, we'll try a free alternative (Nominatim)
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
 
         fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('No se pudo obtener la información de la localidad.');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                if (data && data.features && data.features.length > 0) {
-                    const properties = data.features[0].properties;
-                    const city = properties.city || properties.town || properties.village || properties.municipality;
-                    if (city) {
-                        locationElement.textContent = `Localidad: ${city}`;
-                    } else {
-                        locationElement.textContent = 'No se pudo determinar la localidad.';
-                    }
+                if (data && data.address) {
+                    const city = data.address.city || data.address.town || data.address.village || 'Ubicación Desconocida';
+                    locationElement.textContent = city;
                 } else {
-                    locationElement.textContent = 'No se pudo obtener la localidad.';
+                    locationElement.textContent = 'Ubicación N/A';
                 }
             })
             .catch(error => {
                 console.error('Error al obtener la localidad:', error);
-                locationElement.textContent = 'No se pudo obtener la localidad.';
+                locationElement.textContent = 'Ubicación N/A';
             });
     }
+}
+
+// Función para obtener noticias del API
+function fetchNews() {
+    fetch('api.php')
+        .then(response => response.json())
+        .then(data => {
+            newsData = data;
+            if (newsData.length > 0) {
+                updateTicker();
+                rotateNews();
+                // Rotate news every 10 seconds
+                if (newsRotationInterval) clearInterval(newsRotationInterval);
+                newsRotationInterval = setInterval(rotateNews, 10000);
+            }
+        })
+        .catch(error => console.error('Error fetching news:', error));
+}
+
+// Actualizar el ticker de noticias
+function updateTicker() {
+    const tickerContent = document.getElementById('ticker-content');
+    tickerContent.innerHTML = '';
+
+    // Duplicate the news to make the scroll seamless
+    const tickerItems = [...newsData, ...newsData];
+
+    tickerItems.forEach(item => {
+        const span = document.createElement('span');
+        span.className = 'ticker__item';
+        span.textContent = `${item.source_name}: ${item.title}`;
+        tickerContent.appendChild(span);
+    });
+}
+
+// Rotar la noticia principal
+function rotateNews() {
+    if (newsData.length === 0) return;
+
+    const news = newsData[currentNewsIndex];
+
+    document.getElementById('news-title').textContent = news.title;
+    document.getElementById('news-description').textContent = news.description ? news.description.substring(0, 150) + '...' : '';
+    document.getElementById('news-source').textContent = news.source_name;
+
+    const date = new Date(news.pub_date);
+    document.getElementById('news-date').textContent = date.toLocaleDateString('es-ES') + ' ' + date.toLocaleTimeString('es-ES');
+
+    const imageElement = document.getElementById('news-image');
+    if (news.image_url) {
+        imageElement.src = news.image_url;
+        imageElement.style.display = 'block';
+    } else {
+        // Placeholder or hide image
+        imageElement.src = 'https://via.placeholder.com/1920x1080/111111/FFFFFF?text=NEWS';
+    }
+
+    currentNewsIndex = (currentNewsIndex + 1) % newsData.length;
 }
 
 // Función principal que se ejecuta al cargar la página
 function main() {
     updateClock();
     setInterval(updateClock, 1000);
+
+    fetchNews();
+    // Refresh news list every 5 minutes
+    setInterval(fetchNews, 300000);
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -88,17 +144,12 @@ function main() {
             },
             (error) => {
                 console.error('Error al obtener la geolocalización:', error);
-                const weatherElement = document.getElementById('weather');
-                if (weatherElement) {
-                    weatherElement.textContent = 'No se pudo obtener la ubicación.';
-                }
+                document.getElementById('weather').textContent = 'Clima: N/A';
+                document.getElementById('location').textContent = 'Ubicación: N/A';
             }
         );
     } else {
-        const weatherElement = document.getElementById('weather');
-        if (weatherElement) {
-            weatherElement.textContent = 'La geolocalización no es soportada por este navegador.';
-        }
+        document.getElementById('weather').textContent = 'Geolocalización no soportada';
     }
 }
 

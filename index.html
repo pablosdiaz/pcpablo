@@ -3,22 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola Mundo con Reloj y Temperatura</title>
+    <title>News TV</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Hola mundo</h1>
-    <div id="clock"></div>
-    <div id="weather"></div>
-    <div id="location"></div>
+    <div class="tv-container">
+        <!-- Main Content Area -->
+        <div class="main-screen">
+            <div id="news-image-container">
+                <img id="news-image" src="" alt="News Image">
+            </div>
+            <div class="news-overlay">
+                <div class="breaking-badge">ÚLTIMA HORA</div>
+                <h1 id="news-title">Cargando noticias...</h1>
+                <p id="news-description"></p>
+                <div class="news-meta">
+                    <span id="news-source"></span> - <span id="news-date"></span>
+                </div>
+            </div>
+        </div>
 
-    <form action="https://formsubmit.co/diazpablosantiago@gmail.com" method="POST">
-        <h2>Contacto</h2>
-        <input type="text" name="name" placeholder="Tu nombre" required>
-        <input type="email" name="email" placeholder="Tu correo electrónico" required>
-        <textarea name="message" placeholder="Tu mensaje" required></textarea>
-        <button type="submit">Enviar</button>
-    </form>
+        <!-- Lower Thirds (Ticker, Clock, Weather) -->
+        <div class="lower-third">
+            <div class="ticker-wrap">
+                <div class="ticker-label">NOTICIAS</div>
+                <div class="ticker">
+                    <div class="ticker__inner" id="ticker-content">
+                        <!-- Ticker items will be inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-bar">
+                <div id="clock">--:--:--</div>
+                <div id="weather">Cargando clima...</div>
+                <div id="location">Obteniendo ubicación...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The original form is kept hidden or moved if needed, I'll keep it at the bottom as overlay or below but usually TV channel takes full screen -->
+    <div class="contact-form-container">
+        <form action="https://formsubmit.co/diazpablosantiago@gmail.com" method="POST">
+            <h2>Contacto</h2>
+            <input type="text" name="name" placeholder="Tu nombre" required>
+            <input type="email" name="email" placeholder="Tu correo electrónico" required>
+            <textarea name="message" placeholder="Tu mensaje" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
 
     <script src="script.js"></script>
 </body>

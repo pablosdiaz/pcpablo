@@ -1,0 +1,19 @@
+[Mon Oct 26 02:37:54 2026] PHP 8.3.6 Development Server (http://localhost:8000) started
+[Mon Oct 26 02:38:03 2026] [::1]:57790 Accepted
+[Mon Oct 26 02:38:03 2026] [::1]:57790 [200]: GET /api.php
+[Mon Oct 26 02:38:03 2026] [::1]:57790 Closing
+[Mon Oct 26 02:38:11 2026] [::1]:37316 Accepted
+[Mon Oct 26 02:38:11 2026] [::1]:37316 [200]: GET /index.html
+[Mon Oct 26 02:38:11 2026] [::1]:37316 Closing
+[Mon Oct 26 02:39:18 2026] [::1]:33300 Accepted
+[Mon Oct 26 02:39:18 2026] [::1]:33300 [200]: GET /index.html
+[Mon Oct 26 02:39:18 2026] [::1]:33300 Closing
+[Mon Oct 26 02:39:18 2026] [::1]:33312 Accepted
+[Mon Oct 26 02:39:18 2026] [::1]:33316 Accepted
+[Mon Oct 26 02:39:18 2026] [::1]:33312 [200]: GET /style.css
+[Mon Oct 26 02:39:18 2026] [::1]:33316 [200]: GET /script.js
+[Mon Oct 26 02:39:18 2026] [::1]:33312 Closing
+[Mon Oct 26 02:39:18 2026] [::1]:33316 Closing
+[Mon Oct 26 02:39:19 2026] [::1]:33318 Accepted
+[Mon Oct 26 02:39:19 2026] [::1]:33318 [200]: GET /api.php
+[Mon Oct 26 02:39:19 2026] [::1]:33318 Closing
